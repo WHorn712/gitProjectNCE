@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class ActionsButtons : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ClickOnButtonStart(int a)
     {
-        
+        AudioSource aud = this.GetComponent<AudioSource>();
+        aud.Play();
+        if (a==0)
+        {
+            Debug.Log("Start");
+        }
+        else if(a==1)
+        {
+            Debug.Log("Option");
+        }
+        else if(a==2)
+        {
+            Debug.Log("progresso");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
