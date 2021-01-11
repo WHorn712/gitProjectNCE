@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Kingdom : MonoBehaviour
@@ -22,6 +20,7 @@ public class Kingdom : MonoBehaviour
     private GameObject buttons;
     [SerializeField]
     private GameObject time;
+    public Image ex;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,17 +40,24 @@ public class Kingdom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKey(KeyCode.A))
+        {
+            float a = -211.71f + 85.73f;
+            Debug.Log(a);
+            ex.rectTransform.offsetMax = new Vector2(a, ex.rectTransform.offsetMax.y);
+        }
     }
     public void ChoiceSexo(GameObject go)
     {
         if(go.layer==8)
         {
             sexo = 'M';
+            Controller.current.InitiatePositionSocial(0);
         }
         else if(go.layer==9)
         {
             sexo = 'F';
+            Controller.current.InitiatePositionSocial(1);
         }
         GameObject.Find("Canvas").transform.GetChild(2).gameObject.SetActive(false);
         GameObject.Find("Canvas").transform.GetChild(3).gameObject.SetActive(true);
@@ -77,15 +83,16 @@ public class Kingdom : MonoBehaviour
     public void ClickOKNameFamily(GameObject go)
     {
         nameFamily = DigitNames(go);
-        if (nameFamily.Length>0)
-        {
-            Debug.Log(nameKing);
-            Debug.Log(nameKingdom);
-            Debug.Log(nameFamily);
-        }
+        //if (nameFamily.Length>0)
+        //{
+        //    Debug.Log(nameKing);
+        //    Debug.Log(nameKingdom);
+        //    Debug.Log(nameFamily);
+        //}
         go.SetActive(false);
         backGround.gameObject.SetActive(false);
         Attiving(true);
+        Controller.current.STOPTIME = false;
     }
     public void ClickMainButton(GameObject go)
     {
@@ -107,40 +114,81 @@ public class Kingdom : MonoBehaviour
     public void ClickCollection(GameObject go)
     {
         go.SetActive(true);
-        if(go.transform.GetChild(1).GetComponent<Image>().color.Equals(go.transform.GetChild(2).GetComponent<Image>().color))
+        if(go.transform.GetChild(2).GetComponent<Image>().color.Equals(go.transform.GetChild(3).GetComponent<Image>().color))
         {
-            ClickCollectionButtons(go, 0);
+            ClickButtons(go.transform.GetChild(2).gameObject,0);
+            ClickButtons(go.transform.GetChild(3).gameObject, 1);
+            go.transform.GetChild(4).gameObject.SetActive(true);
+            go.transform.GetChild(5).gameObject.SetActive(false);
         }
+        if(go.transform.GetChild(5).gameObject.activeSelf)
+        {
+            AcessPosition(go);
+        }
+        Controller.current.STOPTIME = true;
     }
     public void ClickDesafioButton(GameObject go)
     {
-        ClickCollectionButtons(go, 0);
+        ClickButtons(go.transform.GetChild(2).gameObject, 0);
+        ClickButtons(go.transform.GetChild(3).gameObject, 1);
+        go.transform.GetChild(4).gameObject.SetActive(true);
+        go.transform.GetChild(5).gameObject.SetActive(false);
     }
     public void ClickPositionSocial(GameObject go)
     {
-        ClickCollectionButtons(go, 1);
+        ClickButtons(go.transform.GetChild(3).gameObject, 0);
+        ClickButtons(go.transform.GetChild(2).gameObject, 1);
+        go.transform.GetChild(4).gameObject.SetActive(false);
+        go.transform.GetChild(5).gameObject.SetActive(true);
+        AcessPosition(go);
     }
     public void ClickCloseCollection(GameObject go)
     {
         go.SetActive(false);
+        Controller.current.STOPTIME = false;
+    }
+    public void ClickDados(GameObject go)
+    {
+        go.SetActive(true);
+    }
+    public void ClickSubDados(GameObject go)
+    {
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(2).gameObject, 0);
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(3).gameObject, 1);
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(4).gameObject, 1);
+        go.transform.GetChild(0).transform.GetChild(6).gameObject.SetActive(true);
+        go.transform.GetChild(0).transform.GetChild(7).gameObject.SetActive(false);
+        go.transform.GetChild(0).transform.GetChild(8).gameObject.SetActive(false);
+    }
+    public void ClickTerras(GameObject go)
+    {
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(3).gameObject, 0);
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(2).gameObject, 1);
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(4).gameObject, 1);
+        go.transform.GetChild(0).transform.GetChild(7).gameObject.SetActive(true);
+        go.transform.GetChild(0).transform.GetChild(6).gameObject.SetActive(false);
+        go.transform.GetChild(0).transform.GetChild(8).gameObject.SetActive(false);
+    }
+    public void ClickHistory(GameObject go)
+    {
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(4).gameObject, 0);
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(3).gameObject, 1);
+        ClickButtons(go.transform.GetChild(0).transform.GetChild(2).gameObject, 1);
+        go.transform.GetChild(0).transform.GetChild(8).gameObject.SetActive(true);
+        go.transform.GetChild(0).transform.GetChild(7).gameObject.SetActive(false);
+        go.transform.GetChild(0).transform.GetChild(6).gameObject.SetActive(false);
     }
 
 
-    private void ClickCollectionButtons(GameObject go, int i)
+    private void ClickButtons(GameObject go, int i)
     {
         if (i == 0)
         {
-            go.transform.GetChild(1).GetComponent<Image>().color = new Color(0.52f, 0.49f, 0.47f, 1f);
-            go.transform.GetChild(2).GetComponent<Image>().color = new Color(0.18f, 0.16f, 0.15f, 1f);
-            go.transform.GetChild(3).gameObject.SetActive(true);
-            go.transform.GetChild(4).gameObject.SetActive(false);
+            go.GetComponent<Image>().color = new Color(0.52f, 0.49f, 0.47f, 1f);
         }
-        else
+        else if(i==1)
         {
-            go.transform.GetChild(2).GetComponent<Image>().color = new Color(0.52f, 0.49f, 0.47f, 1f);
-            go.transform.GetChild(1).GetComponent<Image>().color = new Color(0.18f, 0.16f, 0.15f, 1f);
-            go.transform.GetChild(3).gameObject.SetActive(false);
-            go.transform.GetChild(4).gameObject.SetActive(true);
+            go.GetComponent<Image>().color = new Color(0.18f, 0.16f, 0.15f, 1f);
         }
     }
     private string DigitNames(GameObject go)
@@ -182,5 +230,22 @@ public class Kingdom : MonoBehaviour
             }
         }
         return ok;
+    }
+    private void AcessPosition(GameObject go)
+    {
+        RectTransform rt = go.transform.GetChild(5).transform.GetChild(1).transform.GetChild(0).GetComponent<RectTransform>();
+        PositionSocial ps = go.transform.GetChild(5).GetComponent<PositionSocial>();
+        if (ps.getPosition() == 0)
+        {
+            rt.anchoredPosition = new Vector2(879, rt.anchoredPosition.y);
+        }
+        else if (ps.getPosition() == 1)
+        {
+            rt.anchoredPosition = new Vector2(367, rt.anchoredPosition.y);
+        }
+        else if (ps.getPosition() >= 2)
+        {
+            rt.anchoredPosition = new Vector2(-22, rt.anchoredPosition.y);
+        }
     }
 }
