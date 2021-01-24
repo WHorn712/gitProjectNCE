@@ -10,6 +10,7 @@ public class Hability
     private float prod;
     private float priceBuy;
     private float priceUp;
+    private bool noFuncao;
     public Hability()
     {
         codFuncao = 0;
@@ -18,6 +19,14 @@ public class Hability
         prod = 0;
         priceBuy = 0;
         priceUp = 0;
+        noFuncao = true;
+    }
+    public bool NoFuncao
+    {
+        get
+        {
+            return noFuncao;
+        }
     }
     public int CodFuncao
     {
@@ -120,6 +129,6 @@ public class Hability
 
     public void DefinindoFuncao(int a)
     {
-
+        noFuncao = false;
     }
 }

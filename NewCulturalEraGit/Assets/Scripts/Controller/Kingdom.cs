@@ -21,6 +21,35 @@ public class Kingdom : MonoBehaviour
     [SerializeField]
     private GameObject time;
     public Image ex;
+    public string NameKing
+    {
+        get
+        {
+            return nameKing;
+        }
+        set
+        {
+            nameKing = value;
+        }
+    }
+    public string NameKingdom
+    {
+        get
+        {
+            return nameKingdom;
+        }
+        set
+        {
+            nameKingdom = value;
+        }
+    }
+    public string NameFamily
+    {
+        get
+        {
+            return nameFamily;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -64,35 +93,43 @@ public class Kingdom : MonoBehaviour
     }
     public void ClickOKName(GameObject go)
     {
-        nameKing = DigitNames(go);
-        if(nameKing.Length>0)
+        bool a = false;
+        nameKing = DigitNames(go,out a);
+        if (a)
         {
-            go.SetActive(false);
-            GameObject.Find("Canvas").transform.GetChild(4).gameObject.SetActive(true);
+            if (nameKing.Length > 0)
+            {
+                go.SetActive(false);
+                GameObject.Find("Canvas").transform.GetChild(4).gameObject.SetActive(true);
+            }
         }
     }
     public void ClickOKNameKingdom(GameObject go)
     {
-        nameKingdom = DigitNames(go);
-        if (nameKingdom.Length>0)
+        bool a = false;
+        nameKingdom = DigitNames(go,out a);
+        if (a)
         {
-            go.SetActive(false);
-            GameObject.Find("Canvas").transform.GetChild(5).gameObject.SetActive(true);
+            if (nameKingdom.Length > 0)
+            {
+                go.SetActive(false);
+                GameObject.Find("Canvas").transform.GetChild(5).gameObject.SetActive(true);
+                Controller.current.Counquist.StartTerras(nameKingdom);
+                Controller.current.Counquist.StartCountys(nameKingdom);
+            }
         }
     }
     public void ClickOKNameFamily(GameObject go)
     {
-        nameFamily = DigitNames(go);
-        //if (nameFamily.Length>0)
-        //{
-        //    Debug.Log(nameKing);
-        //    Debug.Log(nameKingdom);
-        //    Debug.Log(nameFamily);
-        //}
-        go.SetActive(false);
-        backGround.gameObject.SetActive(false);
-        Attiving(true);
-        Controller.current.STOPTIME = false;
+        bool a = false;
+        nameFamily = DigitNames(go,out a);
+        if (a)
+        {
+            go.SetActive(false);
+            backGround.gameObject.SetActive(false);
+            Attiving(true);
+            Controller.current.STOPTIME = false;
+        }
     }
     public void ClickMainButton(GameObject go)
     {
@@ -147,9 +184,14 @@ public class Kingdom : MonoBehaviour
         go.SetActive(false);
         Controller.current.STOPTIME = false;
     }
+    public void ClickClose(GameObject go)
+    {
+        go.SetActive(false);
+    }
     public void ClickDados(GameObject go)
     {
         go.SetActive(true);
+        Controller.current.STOPTIME = true;
     }
     public void ClickSubDados(GameObject go)
     {
@@ -191,11 +233,13 @@ public class Kingdom : MonoBehaviour
             go.GetComponent<Image>().color = new Color(0.18f, 0.16f, 0.15f, 1f);
         }
     }
-    private string DigitNames(GameObject go)
+    private string DigitNames(GameObject go, out bool a)
     {
         string name = go.transform.GetChild(0).transform.GetChild(1).transform.GetChild(2).GetComponent<Text>().text;
         if (!isNumbers(name) && name.Length > 0)
         {
+            name = name.ToUpper();
+            a = true;
             return name;
         }
         else
@@ -211,7 +255,8 @@ public class Kingdom : MonoBehaviour
             }
             go.transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = b;
             go.transform.GetChild(0).transform.GetChild(3).gameObject.SetActive(true);
-            return "";
+            a = false;
+            return b;
         }
     }
     private bool isNumbers(string t)

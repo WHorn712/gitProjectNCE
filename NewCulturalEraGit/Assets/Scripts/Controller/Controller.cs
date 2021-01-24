@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
+    public GameObject dados;
     public static Controller current;
     public List<Person> population = new List<Person>();
     private int registroGeral;
@@ -13,12 +14,19 @@ public class Controller : MonoBehaviour
     private Text textPopulation;
     private float food;
     private float water;
+    private Conquist conquist;
     private void ItiateVar()
     {
         food = 0;
         water = 0;
     }
-
+    public Conquist Counquist
+    {
+        get
+        {
+            return conquist;
+        }
+    }
     private void Awake()
     {
         stopTime = true;
@@ -26,6 +34,7 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        conquist = dados.GetComponent<Conquist>();
         ItiateVar();
         current = this;
         StartPopulation();
