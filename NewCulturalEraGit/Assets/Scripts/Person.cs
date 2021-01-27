@@ -108,4 +108,8 @@ public class Person
             habiliti = value;
         }
     }
+    public void DefinindoFuncao(int a)
+    {
+        habiliti.DefinindoFuncao(a, idade);
+    }
 }

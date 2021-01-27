@@ -100,8 +100,11 @@ public class Conquist : MonoBehaviour
     // 1/1 - MORRE O GRANDIOSO RAGNAR LODBROOK
     // 1/1 - O TRONO É PASSADO PARA BJORN LODBROOK. FILHO DE RAGNAR
 
-    public void AddNewHistory(int i, int year, int day,string a, string b)
+    public void AddNewHistory(int i, string a)
     {
+        a = a.ToUpper();
+        int year = ControlTime.curren.Year;
+        int day = ControlTime.curren.Day;
         string sit = "";
         if(i==0)
         {
@@ -123,6 +126,13 @@ public class Conquist : MonoBehaviour
         {
             sit = day + "/" + year + " - " + "O TRONO É PASSADO PARA " + Kingdom.current.NameKing + " " + Kingdom.current.NameFamily;
         }
-
+        GameObject go = Instantiate(historyTela);
+        go.transform.GetChild(0).GetComponent<Text>().text = sit;
+        GameObject dest = history.transform.GetChild(1).transform.GetChild(0).gameObject;
+        go.transform.SetParent(dest.transform);
+        GameObject g = history.transform.GetChild(1).transform.GetChild(0).gameObject;
+        float x = g.GetComponent<RectTransform>().offsetMin.x;
+        float y = g.GetComponent<RectTransform>().offsetMin.y-500;
+        g.GetComponent<RectTransform>().offsetMin = new Vector2(x, y);
     }
 }

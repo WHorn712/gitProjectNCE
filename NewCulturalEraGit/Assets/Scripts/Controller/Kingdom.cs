@@ -69,12 +69,13 @@ public class Kingdom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.A))
-        {
-            float a = -211.71f + 85.73f;
-            Debug.Log(a);
-            ex.rectTransform.offsetMax = new Vector2(a, ex.rectTransform.offsetMax.y);
-        }
+        
+    }
+    public void ClickTrabalhadores(GameObject go)
+    {
+        go.SetActive(true);
+        Controller.current.STOPTIME = true;
+        Controller.current.Trabalhadores.MakeUpdateTexts();
     }
     public void ChoiceSexo(GameObject go)
     {
