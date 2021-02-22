@@ -112,4 +112,8 @@ public class Person
     {
         habiliti.DefinindoFuncao(a, idade);
     }
+    public void RemovingFerramenta()
+    {
+        hability.RemovingFerramenta(idade);
+    }
 }

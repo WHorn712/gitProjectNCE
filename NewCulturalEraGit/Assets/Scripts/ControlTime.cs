@@ -14,10 +14,23 @@ public class ControlTime : MonoBehaviour
     private float timecontrol;
     private List<int> dateBorn = new List<int>();
     private int nextBorn;
+    private int dayProp;
+    public int DayProp
+    {
+        get
+        {
+            return dayProp;
+        }
+        set
+        {
+            dayProp = value;
+        }
+    }
     private void Awake()
     {
         curren = this;
         TimeSpeed = 0.1f;
+        dayProp = -9;
     }
     // Start is called before the first frame update
     void Start()
@@ -49,7 +62,9 @@ public class ControlTime : MonoBehaviour
                 dayCurrent++;
                 dia.text = "DIA: " + dayCurrent.ToString();
                 AnaliseBorn(dayCurrent);
+                Controller.current.WorkResources();
                 Controller.current.PopulationEating();
+                AnaliseDayProp();
             }
             if(dayCurrent==366)
             {
@@ -162,6 +177,15 @@ public class ControlTime : MonoBehaviour
             {
                 Born();
             }
+        }
+    }
+
+    private void AnaliseDayProp()
+    {
+        if(dayCurrent==dayProp)
+        {
+            Controller.current.Propaganda.transform.GetChild(0).gameObject.SetActive(true);
+            dayProp = -9;
         }
     }
 }

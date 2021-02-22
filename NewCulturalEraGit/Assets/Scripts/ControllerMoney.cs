@@ -22,12 +22,16 @@ public class ControllerMoney : MonoBehaviour
     }
     private void Start()
     {
-        money = 100;
+        money = 0;
         moneytext.text = money.ToString();
         //float a = (float)Decimal.Round((decimal)3.567f,0);
         //float b = (float)Decimal.Round((decimal)3.567f, 1);
         //float c= (float)Decimal.Round((decimal)3.567f, 2);
         //Debug.Log(a + "       " + b + "      " + c);
+    }
+    public float GetMoney()
+    {
+        return (float)(Decimal.Round((decimal)money, 0));
     }
     public float Money
     {
@@ -42,8 +46,11 @@ public class ControllerMoney : MonoBehaviour
             {
                 money = 0;
             }
+            float a = (float)(Decimal.Round((decimal)money, 0));
+            moneytext.text = a.ToString();
             //moneytext.text = Encurtando(money);
             //moneyTextCC.text = Encurtando(money);
+            //textaux.text = (Decimal.Round((decimal)Niv, 0)).ToString() + "%";
         }
     }
     public void MoneyForProd(float m)

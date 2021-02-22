@@ -59,7 +59,7 @@ public class PositionSocial : MonoBehaviour
                 a++;
             }
         }
-        DesblokPositionSocial(1);
+        //DesblokPositionSocial(1);
     }
     public void DesblokPositionSocial(int i)
     {

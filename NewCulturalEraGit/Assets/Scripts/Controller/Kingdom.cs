@@ -20,6 +20,10 @@ public class Kingdom : MonoBehaviour
     private GameObject buttons;
     [SerializeField]
     private GameObject time;
+    [SerializeField]
+    private GameObject comida;
+    [SerializeField]
+    private GameObject agua;
     public Image ex;
     public string NameKing
     {
@@ -59,6 +63,8 @@ public class Kingdom : MonoBehaviour
     }
     private void Attiving(bool isactiv)
     {
+        comida.SetActive(isactiv);
+        agua.SetActive(isactiv);
         time.gameObject.SetActive(isactiv);
         coinGameObject.SetActive(isactiv);
         timeButtons.SetActive(isactiv);
@@ -76,6 +82,7 @@ public class Kingdom : MonoBehaviour
         go.SetActive(true);
         Controller.current.STOPTIME = true;
         Controller.current.Trabalhadores.MakeUpdateTexts();
+        DesativingProp();
     }
     public void ChoiceSexo(GameObject go)
     {
@@ -130,23 +137,27 @@ public class Kingdom : MonoBehaviour
             backGround.gameObject.SetActive(false);
             Attiving(true);
             Controller.current.STOPTIME = false;
+            Controller.current.Propaganda.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
     public void ClickMainButton(GameObject go)
     {
-        if(go.transform.GetChild(0).gameObject.activeSelf)
+        if (Controller.current.STOPTIME == false)
         {
-            go.transform.GetChild(0).gameObject.SetActive(false);
-            go.transform.GetChild(1).gameObject.SetActive(false);
-            go.transform.GetChild(2).gameObject.SetActive(false);
-            go.transform.GetChild(5).gameObject.SetActive(false);
-        }
-        else
-        {
-            go.transform.GetChild(0).gameObject.SetActive(true);
-            go.transform.GetChild(1).gameObject.SetActive(true);
-            go.transform.GetChild(2).gameObject.SetActive(true);
-            go.transform.GetChild(5).gameObject.SetActive(true);
+            if (go.transform.GetChild(0).gameObject.activeSelf)
+            {
+                go.transform.GetChild(0).gameObject.SetActive(false);
+                go.transform.GetChild(1).gameObject.SetActive(false);
+                go.transform.GetChild(2).gameObject.SetActive(false);
+                go.transform.GetChild(5).gameObject.SetActive(false);
+            }
+            else
+            {
+                go.transform.GetChild(0).gameObject.SetActive(true);
+                go.transform.GetChild(1).gameObject.SetActive(true);
+                go.transform.GetChild(2).gameObject.SetActive(true);
+                go.transform.GetChild(5).gameObject.SetActive(true);
+            }
         }
     }
     public void ClickCollection(GameObject go)
@@ -164,6 +175,7 @@ public class Kingdom : MonoBehaviour
             AcessPosition(go);
         }
         Controller.current.STOPTIME = true;
+        DesativingProp();
     }
     public void ClickDesafioButton(GameObject go)
     {
@@ -184,6 +196,10 @@ public class Kingdom : MonoBehaviour
     {
         go.SetActive(false);
         Controller.current.STOPTIME = false;
+        if(Controller.current.IsActiveProp)
+        {
+            Controller.current.Propaganda.transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
     public void ClickClose(GameObject go)
     {
@@ -193,6 +209,7 @@ public class Kingdom : MonoBehaviour
     {
         go.SetActive(true);
         Controller.current.STOPTIME = true;
+        DesativingProp();
     }
     public void ClickSubDados(GameObject go)
     {
@@ -292,6 +309,19 @@ public class Kingdom : MonoBehaviour
         else if (ps.getPosition() >= 2)
         {
             rt.anchoredPosition = new Vector2(-22, rt.anchoredPosition.y);
+        }
+    }
+
+    private void DesativingProp()
+    {
+        if(Controller.current.Propaganda.transform.GetChild(0).gameObject.activeSelf)
+        {
+            Controller.current.Propaganda.transform.GetChild(0).gameObject.SetActive(false);
+            Controller.current.IsActiveProp = true;
+        }
+        else
+        {
+            Controller.current.IsActiveProp = false;
         }
     }
 }
